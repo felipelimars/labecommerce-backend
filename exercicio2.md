@@ -19,4 +19,4 @@ No arquivo ```exercicios/process-argv.js```, faça aparecer no console pelo meno
 ### Dica
 - no terminal, entre com ```cd``` na pasta ```exercicios/``` para não precisar digitar o caminho inteiro da pasta para executar o arquivo ```process-argv.js```.
     - ```cd exercicios```
-    - ```node process-argv.js meuArgumento1 meuArgumento2```
+    - ``````
