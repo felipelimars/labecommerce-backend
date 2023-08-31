@@ -1,34 +1,35 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.products = exports.users = void 0;
+/* Criado o types.ts e o database.ts do projeto junto com suas tipagens */
 exports.users = [
     {
         id: "01",
         name: "Jose",
         email: "jose@email.com",
         password: "12123fe",
-        createdAt: "newDate().toISOString"
+        createdAt: new Date().toISOString()
     },
     {
         id: "02",
         name: "Maria",
         email: "maria@email.com",
         password: "abc123",
-        createdAt: "newDate().toISOString"
+        createdAt: new Date().toISOString()
     },
     {
         id: "03",
         name: "Carlos",
         email: "carlos@email.com",
         password: "password123",
-        createdAt: "newDate().toISOString"
+        createdAt: new Date().toISOString()
     },
     {
         id: "04",
         name: "Ana",
         email: "ana@email.com",
         password: "secure456",
-        createdAt: "newDate().toISOString"
+        createdAt: new Date().toISOString()
     }
 ];
 exports.products = [
