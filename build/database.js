@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.products = exports.users = void 0;
-/* Criado o types.ts e o database.ts do projeto junto com suas tipagens */
+/* Feito os exercicios types.ts e o database.ts do projeto junto com suas tipagens */
 exports.users = [
     {
         id: "01",

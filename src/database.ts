@@ -3,6 +3,7 @@ import { TProduct, Tusers } from "./types";
 /* Feito os exercicios types.ts e o database.ts do projeto junto com suas tipagens */
 
 export const users: Tusers[] = [
+
     {
         id: "01",
         name: "Jose",
@@ -34,6 +35,7 @@ export const users: Tusers[] = [
 ];
 
 export const products: TProduct[] = [
+
     {
         id: "01",
         name: "Tênis",
@@ -62,5 +64,6 @@ export const products: TProduct[] = [
         description: "Mochila resistente e versátil para uso urbano",
         imageUrl: "https://d1i2p15dhfw94q.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/i/m/img_1426_5_11.jpg"
     }
+    
 ];
 
