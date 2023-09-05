@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.products = exports.users = void 0;
-/* Criado o types.ts e o database.ts do projeto junto com suas tipagens */
+exports.searchProductsByName = exports.getAllProducts = exports.createProduct = exports.getAllUsers = exports.createUser = exports.products = exports.users = void 0;
+/* Feito os exercicios types.ts e o database.ts do projeto junto com suas tipagens */
 exports.users = [
     {
         id: "01",
@@ -62,3 +62,35 @@ exports.products = [
         imageUrl: "https://d1i2p15dhfw94q.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/i/m/img_1426_5_11.jpg"
     }
 ];
+//////// 1
+function createUser(id, name, email, password) {
+    const createdAt = new Date().toISOString();
+    const newUser = { id, name, email, password, createdAt };
+    exports.users.push(newUser);
+    return "Cadastro realizado com sucesso";
+}
+exports.createUser = createUser;
+function getAllUsers() {
+    return exports.users;
+}
+exports.getAllUsers = getAllUsers;
+const listaDeUsuarios = getAllUsers();
+console.log(listaDeUsuarios);
+/////////// 2
+function createProduct(id, name, price, description, imageUrl) {
+    const newProduct = { id, name, price, description, imageUrl };
+    exports.products.push(newProduct);
+    return "Produto criado com sucesso";
+}
+exports.createProduct = createProduct;
+function getAllProducts() {
+    return exports.products;
+}
+exports.getAllProducts = getAllProducts;
+//////////// 3
+function searchProductsByName(name) {
+    name = name.toLowerCase();
+    const matchingProducts = exports.products.filter(product => product.name.toLowerCase().includes(name));
+    return matchingProducts;
+}
+exports.searchProductsByName = searchProductsByName;
