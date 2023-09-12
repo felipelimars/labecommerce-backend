@@ -64,6 +64,7 @@ export const products: TProduct[] = [
     }
 ];
 
+
 //////// 1
 
 export function createUser(id: string, name: string, email: string, password: string): string {
@@ -83,13 +84,13 @@ export function getAllUsers(): Tusers[] {
 
   /////////// 2
 
-  export function createProduct(id: string, name: string, price: number, description: string, imageUrl: string) {
+  export function createProduct(id: string, name: string, price: number, description: string, imageUrl: string):string {
     const newProduct: TProduct = { id, name, price, description, imageUrl };
     products.push(newProduct);
     return "Produto criado com sucesso";
   }
   
-  export function getAllProducts() {
+  export function getAllProducts():TProduct[] {
     return products;
   }
 
