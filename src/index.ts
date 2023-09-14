@@ -55,7 +55,8 @@ app.get('/products', (req: Request, res: Response) => {
 
 app.get('/product/search', (req: Request, res: Response) => {
     const query: string = req.query.q as string;
-
+    const result: TProduct[] = products
+    
     const productsByName: TProduct[] = products.filter(product => product.name.toLowerCase() === query.toLowerCase()) 
     res.status(200).send(productsByName)
 })
@@ -74,4 +75,4 @@ app.post('/products', (req: Request, res: Response) => {
     const newProduct: TProduct = { id, name, price, description, imageUrl }
     products.push(newProduct)
     res.status(201).send("Produto cadastrado com sucesso!")
-})
+}) 
