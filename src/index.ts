@@ -102,7 +102,6 @@ app.delete("/products/:id", (req: Request, res: Response) => {
   res.status(200).send({ message: "O item foi deletado com o sucesso" });
 });
 
-////
 // Edit Users
 
 app.put("/products/:id", (req: Request, res: Response) => {
