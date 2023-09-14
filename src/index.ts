@@ -107,7 +107,7 @@ app.delete("/products/:id", (req: Request, res: Response) => {
 app.put("/products/:id", (req: Request, res: Response) => {
     const id = req.params.id;
     const newName = req.body.name as string || undefined;
-    const newPrice = req.body.price as number || undefined;
+    const newPrice = req.body.price as number
     const newDescription = req.body.description as string || undefined;
     const newImageUrl = req.body.imageUrl as string || undefined;
   
@@ -116,12 +116,9 @@ app.put("/products/:id", (req: Request, res: Response) => {
     if (product) {
       product.name = newName || product.name;
       product.description = newDescription || product.description;
-      if (typeof newPrice === 'number') {
-        product.price = newPrice;
-      }
+      product.price = isNaN(newPrice) ?  product.price : newPrice
       product.imageUrl = newImageUrl || product.imageUrl;    
       res.status(200).send({ message: "O item foi alterado com sucesso" });
     }
   });
   
-  //////////////
