@@ -62,6 +62,7 @@ exports.products = [
         imageUrl: "https://d1i2p15dhfw94q.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/i/m/img_1426_5_11.jpg"
     }
 ];
+// timestamp
 //////// 1
 function createUser(id, name, email, password) {
     const createdAt = new Date().toISOString();
@@ -75,7 +76,7 @@ function getAllUsers() {
 }
 exports.getAllUsers = getAllUsers;
 const listaDeUsuarios = getAllUsers();
-console.log(listaDeUsuarios);
+//console.log(listaDeUsuarios);
 /////////// 2
 function createProduct(id, name, price, description, imageUrl) {
     const newProduct = { id, name, price, description, imageUrl };
