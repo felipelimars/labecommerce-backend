@@ -63,6 +63,8 @@ app.get('/product/search', (req: Request, res: Response) => {
 
 // Exercício 3) - Mesmo fluxo do exercício 2, criar produtos e usuários
 
+// Create new users
+
 app.post('/users', (req: Request, res: Response) => {
     const { id, name, email, password, createdAt }: Tusers = req.body
     const newUser: Tusers = { id, name, email, password, createdAt }
@@ -76,7 +78,9 @@ app.post('/products', (req: Request, res: Response) => {
     products.push(newProduct)
     res.status(201).send("Produto cadastrado com sucesso!")
 })
-/////
+///// 
+
+// Delete Users
 
 app.delete("/users/:id", (req: Request, res: Response) => {
   const id = req.params.id;
@@ -97,6 +101,8 @@ app.delete("/products/:id", (req: Request, res: Response) => {
   }
   res.status(200).send({ message: "O item foi deletado com o sucesso" });
 });
+
+// Edit Users
 
 app.put("/products/:id", (req: Request, res: Response) => {
     const id = req.params.id;
