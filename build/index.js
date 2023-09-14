@@ -56,3 +56,37 @@ app.post('/products', (req, res) => {
     database_1.products.push(newProduct);
     res.status(201).send("Produto cadastrado com sucesso!");
 });
+/////
+app.delete("/users/:id", (req, res) => {
+    const id = req.params.id;
+    const indexToDelete = database_1.users.findIndex((user) => user.id === id);
+    if (indexToDelete >= 0) {
+        database_1.users.splice(indexToDelete, 1);
+    }
+    res.status(200).send({ message: "O item foi deletado com o sucesso" });
+});
+app.delete("/products/:id", (req, res) => {
+    const id = req.params.id;
+    const indexToDelete = database_1.products.findIndex((user) => user.id === id);
+    if (indexToDelete >= 0) {
+        database_1.products.splice(indexToDelete, 1);
+    }
+    res.status(200).send({ message: "O item foi deletado com o sucesso" });
+});
+app.put("/products/:id", (req, res) => {
+    const id = req.params.id;
+    const newName = req.body.name || undefined;
+    const newPrice = req.body.price || undefined;
+    const newDescription = req.body.description || undefined;
+    const newImageUrl = req.body.imageUrl || undefined;
+    const product = database_1.products.find((product) => product.id === id);
+    if (product) {
+        product.name = newName || product.name;
+        product.description = newDescription || product.description;
+        if (typeof newPrice === 'number') {
+            product.price = newPrice;
+        }
+        product.imageUrl = newImageUrl || product.imageUrl;
+        res.status(200).send({ message: "O item foi alterado com sucesso" });
+    }
+});

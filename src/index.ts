@@ -75,4 +75,46 @@ app.post('/products', (req: Request, res: Response) => {
     const newProduct: TProduct = { id, name, price, description, imageUrl }
     products.push(newProduct)
     res.status(201).send("Produto cadastrado com sucesso!")
-}) 
+})
+/////
+
+app.delete("/users/:id", (req: Request, res: Response) => {
+  const id = req.params.id;
+  const indexToDelete = users.findIndex((user) => user.id === id);
+
+  if (indexToDelete >= 0) {
+    users.splice(indexToDelete, 1);
+  }
+  res.status(200).send({ message: "O item foi deletado com o sucesso" });
+});
+
+app.delete("/products/:id", (req: Request, res: Response) => {
+  const id = req.params.id;
+  const indexToDelete = products.findIndex((user) => user.id === id);
+
+  if (indexToDelete >= 0) {
+    products.splice(indexToDelete, 1);
+  }
+  res.status(200).send({ message: "O item foi deletado com o sucesso" });
+});
+
+app.put("/products/:id", (req: Request, res: Response) => {
+    const id = req.params.id;
+    const newName = req.body.name as string || undefined;
+    const newPrice = req.body.price as number || undefined;
+    const newDescription = req.body.description as string || undefined;
+    const newImageUrl = req.body.imageUrl as string || undefined;
+  
+    const product = products.find((product) => product.id === id);
+  
+    if (product) {
+      product.name = newName || product.name;
+      product.description = newDescription || product.description;
+      if (typeof newPrice === 'number') {
+        product.price = newPrice;
+      }
+      product.imageUrl = newImageUrl || product.imageUrl;    
+      res.status(200).send({ message: "O item foi alterado com sucesso" });
+    }
+  });
+  
