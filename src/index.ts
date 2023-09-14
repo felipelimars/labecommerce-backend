@@ -63,7 +63,7 @@ app.get('/product/search', (req: Request, res: Response) => {
 
 // Exercício 3) - Mesmo fluxo do exercício 2, criar produtos e usuários
 
-// Create new users
+// Create new users / new products
 
 app.post('/users', (req: Request, res: Response) => {
     const { id, name, email, password, createdAt }: Tusers = req.body
@@ -80,7 +80,7 @@ app.post('/products', (req: Request, res: Response) => {
 })
 ///// 
 
-// Delete Users
+// Delete Users / Products
 
 app.delete("/users/:id", (req: Request, res: Response) => {
   const id = req.params.id;
@@ -124,3 +124,4 @@ app.put("/products/:id", (req: Request, res: Response) => {
     }
   });
   
+  //////////////
