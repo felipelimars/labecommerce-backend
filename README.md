@@ -57,6 +57,13 @@ Esta é a **documentação** da API Labecommerce, que oferece endpoints para ger
 - **URL**: `/products/:id`
 - **Corpo da solicitação**: JSON com os dados do produto a ser editado.
 
+### Edit user by id
+
+- **Descrição**: Edita um _usuário com base no ID fornecido_.
+- **Método**: PUT
+- **URL**: `/users/:id`
+- **Corpo da solicitação**: JSON com os dados do usuário a ser editado.
+
 ## Postman
 
 Para testar os endpoints da API, você pode usar o [**Postman**](https://documenter.getpostman.com/view/28315812/2s9YC8xBvZ). Basta importar a coleção no Postman para começar a fazer solicitações e testar os diferentes recursos da API.
