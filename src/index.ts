@@ -101,7 +101,7 @@ app.get("/product/search", (req: Request, res: Response) => {
 
 app.post("/users", (req: Request, res: Response) => {
   try {
-    const { id, name, email, password, createdAt } = req.body;
+    const { id, name, email, password } = req.body;
 
     // Verifica se já existe um usuário com a mesma ID
     const idExist = users.find((user) => user.id === id);
@@ -120,10 +120,9 @@ app.post("/users", (req: Request, res: Response) => {
       typeof id === "string" &&
       typeof name === "string" &&
       typeof email === "string" &&
-      typeof password === "string" &&
-      typeof createdAt === "string"
-    ) {
-      const newUser: Tusers = { id, name, email, password, createdAt };
+      typeof password === "string"
+      ) {
+      const newUser: Tusers = { id, name, email, password, createdAt: new Date().toISOString() };
       users.push(newUser);
       res.status(201).send("Cadastro realizado com sucesso!");
     } else {
@@ -173,8 +172,6 @@ app.post("/products", (req: Request, res: Response) => {
   }
 });
 
-/////
-
 // Delete Users / Products
 
 app.delete("/users/:id", (req: Request, res: Response) => {
@@ -223,7 +220,7 @@ app.delete("/products/:id", (req: Request, res: Response) => {
   }
 });
 
-// Edit Users
+// Edit Products
 
 app.put("/products/:id", (req: Request, res: Response) => {
   const id = req.params.id;
@@ -273,4 +270,57 @@ app.put("/products/:id", (req: Request, res: Response) => {
   }
 
   res.status(200).send({ message: "O item foi alterado com sucesso" });
+})
+
+// Edit Users
+
+app.put("/users/:id", (req: Request, res: Response) => {
+  const id = req.params.id;
+  const newName = (req.body.name as string) || undefined
+  const newEmail = (req.body.email as string) || undefined
+  const newPassword = (req.body.password as string) || undefined
+  const newcreatedAt = (req.body.createdAt as string) || undefined
+
+
+  // Verifica se o usuário existe antes de editar
+
+  const user = users.find((user) => user.id === id)
+
+  if (!user) {
+    res.status(404).send({ message: "Usuário não encontrado." })
+    return
+  }
+
+  // Verifica se os dados opcionais estão no formato correto, se fornecidos
+
+  if (
+    (newName && typeof newName !== "string") ||
+    (newEmail && typeof newEmail !== "string") || 
+    (newPassword && typeof newPassword !== "string") || 
+    (newcreatedAt && typeof newcreatedAt !== "string")
+
+  ) {
+    res.status(400).send({ message: "Dados incorretos." })
+    return;
+  }
+
+  // Atualiza os campos somente se um novo valor for fornecido
+
+  if (newName !== undefined) {
+    user.name = newName;
+  }
+
+  if (newEmail !== undefined) {
+    user.email = newEmail;
+  }
+
+  if (newPassword !== undefined) {
+    user.password = newPassword
+  }
+
+  if (newcreatedAt !== undefined) {
+    user.createdAt = newcreatedAt
+  }
+
+  res.status(200).send({ message: "O usuário foi alterado com sucesso" })
 })
