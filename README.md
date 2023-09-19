@@ -1,5 +1,7 @@
 # Labecommerce API
 
+[**API**](https://documenter.getpostman.com/view/28315812/2s9YC8xBvZ)
+
 Esta é a **documentação** da API Labecommerce, que oferece endpoints para gerenciar _usuários_ e _produtos_.
 
 ## Endpoints
