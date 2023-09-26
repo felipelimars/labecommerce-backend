@@ -6,7 +6,7 @@ CREATE TABLE users (
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    created_at TEXT NOT NULL
+    created_at TEXT DEFAULT(DATETIME()) NOT NULL
 );
 
 -- Visualizando dados da tabela users --
@@ -15,9 +15,9 @@ SELECT * FROM users;
 -- Populando tabela de pessoas usuárias --
 INSERT INTO users (id, name, email, password, created_at)
 VALUES 
-('01', 'Jose', 'jose@email.com', '12123fe', '2023-09-19T20:44:59.346Z'),
-('02', 'Maria', 'maria@email.com', 'password123', '2023-09-19T20:44:59.347Z'),
-('03', 'Carlos', 'carlos@email.com', 'password123', '2023-09-19T20:44:59.347Z');
+('01', 'Jose', 'jose@email.com', '12123fe', DATETIME()),
+('02', 'Maria', 'maria@email.com', 'password123', DATETIME()),
+('03', 'Carlos', 'carlos@email.com', 'password123', DATETIME());
 
 
 -- CREATE PRODUCTS --
