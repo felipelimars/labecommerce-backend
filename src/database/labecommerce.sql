@@ -1,4 +1,4 @@
--- Active: 1695853383510@@127.0.0.1@3306
+-- Active: 1696357142518@@127.0.0.1@3306
 
 -- CREATE USERS -
 CREATE TABLE users (
@@ -57,7 +57,7 @@ SELECT * FROM products WHERE name LIKE '%Camiseta%';
 -- Create user --
 INSERT INTO users (id, name, email, password)
 VALUES 
-('04', 'xxx', 'xxx@email.com', 'xxx' );
+('04', 'Ronaldinho', 'ronaldinho@email.com', '1234ab' );
 
 -- Create products -- 
 INSERT INTO products (id, name, price, description, image_url)
@@ -82,4 +82,33 @@ SET
     image_url = 'imagem.com/exemplo.png'
 WHERE id = '02';
 
-DROP TABLE users;
+-- Criação da tabela de pedidos --
+
+CREATE TABLE purchases (
+    id TEXT PRIMARY KEY UNIQUE NOT NULL,
+    buyer TEXT NOT NULL,
+    total_price REAL NOT NULL,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    FOREIGN KEY (buyer) REFERENCES users(id)
+);
+-- Criar pedidos --
+
+INSERT INTO purchases (id, buyer, total_price)
+VALUES ('01', '01', 200);
+INSERT INTO purchases (id, buyer, total_price)
+VALUES ('04', '04', 400);
+
+UPDATE purchases SET total_price = 500 WHERE id = '01';
+
+SELECT
+    purchases.id,
+    purchases.buyer,
+    users.name,
+    users.email,
+    purchases.total_price,
+    purchases.created_at
+FROM
+    purchases
+INNER JOIN
+    users ON users.id = purchases.buyer;
+
