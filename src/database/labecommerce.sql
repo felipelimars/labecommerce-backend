@@ -83,22 +83,24 @@ SET
 WHERE id = '02';
 
 -- Criação da tabela de pedidos --
-
 CREATE TABLE purchases (
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     buyer TEXT NOT NULL,
     total_price REAL NOT NULL,
     created_at TEXT DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (buyer) REFERENCES users(id)
+ON UPDATE CASCADE -- efeito cascata ao atualizar id na tabela users
+ON DELETE CASCADE -- efeito cascata ao atualizar id na tabela users
 );
 -- Criar pedidos --
 
 INSERT INTO purchases (id, buyer, total_price)
-VALUES ('01', '01', 200);
-INSERT INTO purchases (id, buyer, total_price)
-VALUES ('04', '04', 400);
+VALUES
+('01', '01', 200),
+('02', '02', 400),
+('03', '03', 150);
 
-UPDATE purchases SET total_price = 500 WHERE id = '01';
+UPDATE purchases SET total_price = 80 WHERE id = '03';
 
 SELECT
     purchases.id,
@@ -111,4 +113,38 @@ FROM
     purchases
 INNER JOIN
     users ON users.id = purchases.buyer;
+
+-- Criação de tabela de pedidos de produtos --
+CREATE TABLE purchases_products (
+  purchase_id TEXT NOT NULL,
+  product_id TEXT NOT NULL,
+  quantity INTEGER NOT NULL DEFAULT 0,
+  FOREIGN KEY (purchase_id) REFERENCES purchases (id) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (product_id) REFERENCES products (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- Inserção de dados na tabela purchases_products para 3 compras de clientes --
+INSERT INTO purchases_products (purchase_id, product_id, quantity)
+VALUES
+  ('01', '01', 2),
+  ('02', '03', 2),
+  ('03', '03', 1);
+
+
+-- Consulta com INNER JOIN para mostrar todas as colunas das tabelas relacionadas
+SELECT
+    purchases.id AS purchase_id,
+    purchases.buyer AS buyer_id,    
+    users.name,
+    purchases_products.quantity AS product_quantity, 
+    products.price AS product_price,
+    purchases.total_price,
+    purchases.created_at,
+    products.name AS product_name,
+    products.description AS product_description,
+    products.image_url AS product_image_url
+FROM purchases
+INNER JOIN purchases_products ON purchases.id = purchases_products.purchase_id
+INNER JOIN products ON purchases_products.product_id = products.id
+INNER JOIN users ON users.id = purchases.buyer;
 
