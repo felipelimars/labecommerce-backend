@@ -8,69 +8,85 @@ import {
   searchProductsByName,
 } from "./database";
 
-//console.log("Hello world!");
-//console.log(users);
-//console.log(products);
-
-//console.log(createUser("u003", "Astrodev", "astrodev@email.com", "astrodev99"));
-//console.log(getAllUsers);
-
-//console.log(createProduct("prod003", "SSD gamer", 349.99, "Acelere seu sistema com velocidades incríveis de leitura e gravação.", "https://images.unsplash.com/photo"));
-//console.log(getAllProducts());
-
-//console.log(searchProductsByName("Mochila"))
-
 // Exercicio 1 (API Express) - Configurar Express e Script
 
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { TProduct, Tusers } from "./types";
+import { db } from "./database/knex"
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
-// Testando o servidor e a requisição GET no Postman com "/Ping"
-
+// Rodando o servidor na porta 3003 
 app.listen(3003, () => {
   console.log("Servidor rodando na porta 3003");
 });
 
-app.get("/ping", (req: Request, res: Response) => {
+//Testando com requisição GET no Postman com "/Ping"
+app.get("/ping", async (req: Request, res: Response) => {
   res.send("Pong!");
 });
 
-// Exercício 2) criar endpoints para automatizar a manipulação dos dados do arquivo database.ts.
+// Criação de endpoints para automatizar a manipulação dos dados do arquivo database.ts.
+// e posteriormente conectando banco de dados sqlite e knex.
 
 // Get All Users
-
-  app.get("/users", (req: Request, res: Response) => {
+app.get("/users", async (req: Request, res: Response) => {
     try {
-    const result: Tusers[] = users;
+    const result: Tusers[] = await db.raw(`SELECT * FROM users`)
     res.status(200).send(result);  
-    } catch (error) {}
-  });
+    } catch (error) {
+      if (req.statusCode === 200) {
+        res.status(500);
+      }
+  
+      if (error instanceof Error) {
+        res.send(error.message);
+      } else {
+        res.send("Erro inesperado");
+      }
+    }
+});
 
 // Get All Products
-
-app.get("/products", (req: Request, res: Response) => {
+app.get("/products", async (req, res) => {
   try {
-    const query: string | undefined = req.query.q as string | undefined; // Query vai ser string ou undefined
+    const query = req.query.q as string | undefined;
 
-    if (query !== undefined && query.length === 0) {
-      // Se tiver query na busca "q?=" e não tiver nada no value, lança um erro
-      throw new Error("O parâmetro 'q' deve conter pelo menos um caractere.");
+    let result: TProduct[] = [];
+
+    if (query === undefined || query.length === 0) {
+      // Se o parâmetro 'q' não for fornecido ou estiver vazio, retorne todos os produtos
+      result = await db.raw('SELECT * FROM products');
+    } else {
+      result = await db.raw('SELECT * FROM products WHERE name LIKE ?', [`%${query.toLowerCase()}%`]);
     }
 
-    // Lógica para buscar todos os produtos ou filtrar por query params, dependendo do valor de 'query'
+    res.status(200).send(result);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).send(error.message);
+    } else {
+      res.status(500).send("Ocorreu um erro inesperado.");
+    }
+  }
+});
 
-    let result: TProduct[] = products;
+// Get All Purchases
+app.get("/purchases", async (req, res) => {
+  try {
+    const query = req.query.q as string | undefined;
 
-    if (query !== undefined) {
-      result = products.filter((product) =>
-        product.name.toLowerCase().includes(query.toLowerCase())
-      );
+    let result
+
+    if (query === undefined || query.length === 0) {
+      // Se o parâmetro 'q' não for fornecido ou estiver vazio, retorne todos os produtos
+      result = await db.raw('SELECT * FROM purchases');
+    } else {
+      result = await db.raw('SELECT * FROM purchases WHERE name LIKE ?', [`%${query.toLowerCase()}%`]);
     }
 
     res.status(200).send(result);
@@ -84,7 +100,6 @@ app.get("/products", (req: Request, res: Response) => {
 });
 
 // Get Products By Name
-
 app.get("/product/search", (req: Request, res: Response) => {
   const query: string = req.query.q as string;
   const result: TProduct[] = products;
@@ -95,58 +110,63 @@ app.get("/product/search", (req: Request, res: Response) => {
   res.status(200).send(productsByName);
 });
 
-// Exercício 3) - criar produtos e usuários
-
-// Create new users / new products
-
-app.post("/users", (req: Request, res: Response) => {
+// Create new user
+app.post("/users", async (req: Request, res: Response) => {
   try {
     const { id, name, email, password } = req.body;
 
     // Verifica se já existe um usuário com a mesma ID
-    const idExist = users.find((user) => user.id === id);
-    if (idExist) {
+    const idExist = await db.raw(`SELECT id FROM users WHERE id = "${id}"`);
+
+    if (idExist.length > 0) {
+      res.status(400).send
       throw new Error("Desculpe, já existe um usuário com a mesma ID, por favor insira uma nova ID.");
     }
 
     // Verifica se já existe um usuário com o mesmo email
-    const emailExist = users.find((user) => user.email === email);
-    if (emailExist) {
-      throw new Error("Desculpe, já existe um usuário com o mesmo email, por favor insira um novo email.");
+    const emailExist = await db.raw(`SELECT email FROM users WHERE email = "${email}"`);
+
+    if (emailExist.length > 0) {
+    res.status(400).send
+    throw new Error("Desculpe, já existe um usuário com o mesmo email, por favor insira um novo email.");  
     }
-    
+
+    // Continuar com a inserção do usuário se o id e o email não existirem
+    await db.raw(`INSERT INTO users (id, name, email, password) VALUES ("${id}", "${name}", "${email}", "${password}")`);
+
     // Verifica se os dados estão no formato string
     if (
       typeof id === "string" &&
       typeof name === "string" &&
       typeof email === "string" &&
       typeof password === "string"
-      ) {
+    ) {
       const newUser: Tusers = { id, name, email, password, createdAt: new Date().toISOString() };
       users.push(newUser);
-      res.status(201).send("Cadastro realizado com sucesso!");
+
+      return res.status(200).send("Cadastro realizado com sucesso!");
     } else {
       throw new Error("Os dados devem ser do formato string.");
     }
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).send(error.message);
+      return res.status(400).send(error.message);
     } else {
-      res.status(500).send("Ocorreu um erro inesperado.");
+      return res.status(500).send("Ocorreu um erro inesperado.");
     }
   }
 });
 
-app.post("/products", (req: Request, res: Response) => {
+// Create new product
+app.post("/products", async (req: Request, res: Response) => {
   try {
     const { id, name, price, description, imageUrl } = req.body;
 
-    // Verifica se já existe um produto com a mesma ID
-      const idExist = products.find((product) => product.id === id);
-      if (idExist) {
+    const idExist = await db.raw(`SELECT id FROM products WHERE id = "${id}"`);
+    if(idExist.length > 0){
       throw new Error("Desculpe, já existe um produto com a mesma ID, por favor insira uma nova ID.");
+      res.status(400)
     }
-      
     // Verifica se todos os campos estão no formato correto
     if (
       typeof id === "string" &&
@@ -155,14 +175,16 @@ app.post("/products", (req: Request, res: Response) => {
       typeof description === "string" &&
       typeof imageUrl === "string"
     ) {
-      const newProduct: TProduct = { id, name, price, description, imageUrl };
-      products.push(newProduct);
-      res.status(201).send("Produto cadastrado com sucesso!");
+      await db.raw(`INSERT INTO products (id, name, price, description, imageUrl)
+      VALUES("${id}", "${name}", "${price}", "${description}", "${imageUrl}")
+  `);
+      res.status(201).send("Cadastro realizado com sucesso!");
     } else if (typeof price !== "number"){
       throw new Error("O preço deve ser um número.");
     } else {
       throw new Error("Os dados devem ser do formato string.");
     }
+
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).send(error.message);
@@ -172,22 +194,39 @@ app.post("/products", (req: Request, res: Response) => {
   }
 });
 
-// Delete Users / Products
-
-app.delete("/users/:id", (req: Request, res: Response) => {
+// Create new purchase
+app.post("/purchases", async (req: Request, res: Response) => {
   try {
-    const idToDelete = req.params.id;
-
-    // Verifica se o ID existe antes de tentar deletar
-
-    const indexToDelete = users.findIndex((user) => user.id === idToDelete);    
-    if (indexToDelete === -1) {
-      throw new Error("Desculpe, o ID do usuário não consta em nosso banco de dados, por favor insira uma ID existente.");   
-    } else {
-    users.splice(indexToDelete, 1);
-      res.status(200).send({ message: "O usuário foi deletado com sucesso" });      
-    }
+    const { id, buyer, total_price } = req.body;
     
+    // Verifica se todos os campos estão no formato correto
+    if (
+      typeof id === "string" &&
+      typeof buyer === "string" &&
+      typeof total_price === "number"
+    ){ 
+      // Verifica se o usuário existe
+      const [userExists] = await db.raw(`SELECT id FROM users WHERE id = "${buyer}"`);
+      if (!userExists) {
+        res.status(400)
+        throw new Error("O usuário não existe.");
+      }
+
+      if (id){
+        res.status(400)
+        throw new Error("Insira um pedido com novo ID.")
+      }
+
+      // Insere a compra no banco de dados
+      await db.raw(`INSERT INTO purchases (id, buyer, total_price)
+      VALUES("${id}", "${buyer}", "${total_price}")`);
+
+      // Responde com sucesso
+      res.status(201).send("Cadastro realizado com sucesso!");
+    } else {
+      throw new Error("Os dados devem ser do formato string.");
+    }
+
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).send(error.message);
@@ -197,46 +236,122 @@ app.delete("/users/:id", (req: Request, res: Response) => {
   }
 });
 
-app.delete("/products/:id", (req: Request, res: Response) => {
+// Delete Users 
+app.delete("/users/:id", async (req: Request, res: Response) => {
   try {
-    const idToDelete = req.params.id;
+    const idToDel = req.params.id
 
-    // Verifica se o ID existe antes de tentar deletar
+    const [searchId] = await db.raw(`
+    SELECT id FROM users WHERE id = '${idToDel}'
+    `)
 
-    const indexToDelete = products.findIndex((product) => product.id === idToDelete);    
-    if (indexToDelete === -1) {
-      throw new Error("Desculpe, o ID do produto não consta em nosso banco de dados, por favor insira uma ID existente.");   
-    } else {
-    products.splice(indexToDelete, 1);
-      res.status(200).send({ message: "O produto foi deletado com sucesso" });      
+    if (!searchId){
+      res.statusCode = 400
+      throw new Error("Insira um id válido!")
     }
-    
+
+    if (!searchId) {
+      res.statusCode = 404
+      throw new Error("Id não existe")
+    }
+
+    await db.raw(`
+    DELETE FROM users WHERE id ='${searchId.id}';
+    `)
+
+    res.status(200).send({ message: 'Usuário deletado com sucesso' })
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).send(error.message);
-    } else {
-      res.status(500).send("Ocorreu um erro inesperado.");
+      res.send(error.message)
     }
   }
 });
+
+// Delete Products
+app.delete("/products/:id", async (req: Request, res: Response) => {
+  try {
+    const idToDel = req.params.id
+
+    const [searchId] = await db.raw(`
+    SELECT id FROM products WHERE id = '${idToDel}'
+    `)
+
+    if (!searchId){
+      res.statusCode = 400
+      throw new Error("Insira um id válido!")
+    }
+
+    if (!searchId) {
+      res.statusCode = 404
+      throw new Error("Id não existe")
+    }
+
+    await db.raw(`
+    DELETE FROM products WHERE id ='${searchId.id}';
+    `)
+
+    res.status(200).send({ message: 'Produto deletado com sucesso' })
+  } catch (error) {
+    if (error instanceof Error) {
+      res.send(error.message)
+    }
+  }
+})
+
+// Delete Purchase by ID
+app.delete('/purchases/:id', async (req: Request, res: Response) => {
+  try {
+    const idToDel = req.params.id
+
+    const [searchId] = await db.raw(`
+    SELECT id FROM purchases WHERE id = '${idToDel}'
+    `)
+
+    if (!searchId){
+      res.statusCode = 400
+      throw new Error("Insira um id válido!")
+    }
+
+    if (!searchId) {
+      res.statusCode = 404
+      throw new Error("Id não existe")
+    }
+
+    await db.raw(`
+    DELETE FROM purchases WHERE id ='${searchId.id}';
+    `)
+
+    res.status(200).send({ message: 'Pedido cancelado com sucesso' })
+  } catch (error) {
+    if (error instanceof Error) {
+      res.send(error.message)
+    }
+  }
+})
 
 // Edit Products
-
-app.put("/products/:id", (req: Request, res: Response) => {
+app.put("/products/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
   const newName = (req.body.name as string) || undefined;
   const newPrice = req.body.price as number;
   const newDescription = (req.body.description as string) || undefined;
   const newImageUrl = (req.body.imageUrl as string) || undefined;
 
-
-  // Verifica se o produto existe antes de editar
-
-  const product = products.find((product) => product.id === id);
-
-  if (!product) {
-    res.status(404).send({ message: "Produto não encontrado." });
-    return;
+  const [products] = await db.raw(`SELECT * FROM products WHERE id = "${id}"`);
+  
+  if (products) {
+    await db.raw(`
+      UPDATE products
+      SET
+        name = "${newName || products.name}",
+        price = ${newPrice || products.price},
+        description = "${newDescription || products.description}",
+        image_url = "${newImageUrl || products.image_url}"
+      WHERE id = "${id}"
+    `);
+  } else {
+    res.status(400);
+    throw new Error("Id não encontrado");
   }
 
   // Verifica se os dados opcionais estão no formato correto, se fornecidos
@@ -254,41 +369,44 @@ app.put("/products/:id", (req: Request, res: Response) => {
   // Atualiza os campos somente se um novo valor for fornecido
 
   if (newName !== undefined) {
-    product.name = newName;
+    products.name = newName;
   }
 
   if (newDescription !== undefined) {
-    product.description = newDescription;
+    products.description = newDescription;
   }
 
   if (!isNaN(newPrice)) {
-    product.price = newPrice;
+    products.price = newPrice;
   }
 
   if (newImageUrl !== undefined) {
-    product.imageUrl = newImageUrl;
+    products.image_url = newImageUrl;
   }
 
   res.status(200).send({ message: "O item foi alterado com sucesso" });
 })
 
 // Edit Users
-
-app.put("/users/:id", (req: Request, res: Response) => {
+app.put("/users/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
   const newName = (req.body.name as string) || undefined
   const newEmail = (req.body.email as string) || undefined
   const newPassword = (req.body.password as string) || undefined
-  const newcreatedAt = (req.body.createdAt as string) || undefined
 
+  const [users] = await db.raw(`SELECT * FROM users WHERE id = "${id}"`);
 
-  // Verifica se o usuário existe antes de editar
-
-  const user = users.find((user) => user.id === id)
-
-  if (!user) {
-    res.status(404).send({ message: "Usuário não encontrado." })
-    return
+  if (users) {
+      await db.raw(`
+      UPDATE users SET
+      name = "${newName || users.name}" 
+      email = "${newEmail ||users.email}"
+      password = "${newPassword || users.password}"
+      WHERE id = "${id}"
+    `);
+  } else {
+    res.status(400);
+    throw new Error("Id não encontrado");
   }
 
   // Verifica se os dados opcionais estão no formato correto, se fornecidos
@@ -296,9 +414,7 @@ app.put("/users/:id", (req: Request, res: Response) => {
   if (
     (newName && typeof newName !== "string") ||
     (newEmail && typeof newEmail !== "string") || 
-    (newPassword && typeof newPassword !== "string") || 
-    (newcreatedAt && typeof newcreatedAt !== "string")
-
+    (newPassword && typeof newPassword !== "string")
   ) {
     res.status(400).send({ message: "Dados incorretos." })
     return;
@@ -307,20 +423,15 @@ app.put("/users/:id", (req: Request, res: Response) => {
   // Atualiza os campos somente se um novo valor for fornecido
 
   if (newName !== undefined) {
-    user.name = newName;
+    users.name = newName;
   }
 
   if (newEmail !== undefined) {
-    user.email = newEmail;
+    users.email = newEmail;
   }
 
   if (newPassword !== undefined) {
-    user.password = newPassword
+    users.password = newPassword
   }
-
-  if (newcreatedAt !== undefined) {
-    user.createdAt = newcreatedAt
-  }
-
   res.status(200).send({ message: "O usuário foi alterado com sucesso" })
 })
