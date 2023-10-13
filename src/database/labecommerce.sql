@@ -26,21 +26,20 @@ CREATE TABLE products (
     name TEXT NOT NULL,
     price REAL NOT NULL,
     description TEXT NOT NULL,
-    image_url TEXT NOT NULL
+    imageUrl TEXT NOT NULL
 );
 
 -- Visualizando dados da tabela products --
 SELECT * FROM products;
 
 -- Populando tabela de products --
-INSERT INTO products (id, name, price, description, image_url)
+INSERT INTO products (id, name, price, description, imageUrl)
 VALUES
 ('01','Tênis',200,'Tênis leve e confortável para o dia a dia','https://secure-static.vans.com.br/medias/sys_master/vans/vans/hef/h9b/h00/h00/11292758540318/1003900220019U-01-BASEIMAGE-Hires.jpg'),
 ('02','Camiseta Estampada',50,'Camiseta com estampa moderna e design exclusivo','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiH-2CEGTpUemgPf8GpKC2lXZA_IvsHS8hxRAZO1szlOANvm0eZ3MOtbHz2LSswjjGlog&usqp=CAU'),
 ('03','Calça Jeans Slim',80,'Calça jeans slim com corte moderno e confortável','https://www.tupode.com/uploads/img/catalogo_produtos/359/e5f6c833b8bfeba2ef9906bef612f4fb.jpg'),
 ('04','Mochila Urbana',120,'Mochila resistente e versátil para uso urbano','https://d1i2p15dhfw94q.cloudfront.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/i/m/img_1426_5_11.jpg'),
 ('05','Oculos Rayban', 220,'Oculos para o dia a dia, estilo e conforto','https://d2r9epyceweg5n.cloudfront.net/stores/001/649/283/products/oval-11-0b32aa1ddbf2a48e7016323438355036-1024-1024.png');
-
 
 
 -- ENDPOINTS --
@@ -51,18 +50,20 @@ SELECT * FROM users;
 -- Get All Products --
 SELECT * FROM products;
 
+SELECT * FROM purchases;
+
 -- Get All Products + Filtro de busca por nome --
 SELECT * FROM products WHERE name LIKE '%Camiseta%';
 
 -- Create user --
 INSERT INTO users (id, name, email, password)
 VALUES 
-('04', 'Ronaldinho', 'ronaldinho@email.com', '1234ab' );
+('05', 'Messi', 'messi@email.com', '1234ab' );
 
 -- Create products -- 
-INSERT INTO products (id, name, price, description, image_url)
+INSERT INTO products (id, name, price, description, imageUrl)
 VALUES
-('01','produto',200,'descricao produto','https://image.com/produto.png');
+('06','Tesla Cybertruck', 200000, 'Carro igual um tanque de guerra, indestrutivel','https://image.com/produto.png');
 
 -- Delete User by id --
 DELETE FROM users
@@ -92,27 +93,30 @@ CREATE TABLE purchases (
 ON UPDATE CASCADE -- efeito cascata ao atualizar id na tabela users
 ON DELETE CASCADE -- efeito cascata ao atualizar id na tabela users
 );
--- Criar pedidos --
 
+SELECT * FROM purchases;
+
+-- Criar pedidos --
 INSERT INTO purchases (id, buyer, total_price)
 VALUES
 ('01', '01', 200),
 ('02', '02', 400),
 ('03', '03', 150);
 
+
 UPDATE purchases SET total_price = 80 WHERE id = '03';
 
+-- visualizacao tabela purchases e users
 SELECT
     purchases.id,
     purchases.buyer,
     users.name,
     users.email,
     purchases.total_price,
-    purchases.created_at
-FROM
-    purchases
-INNER JOIN
-    users ON users.id = purchases.buyer;
+    purchases.created_at FROM purchases INNER JOIN users ON users.id = purchases.buyer;
+
+
+
 
 -- Criação de tabela de pedidos de produtos --
 CREATE TABLE purchases_products (
@@ -142,9 +146,8 @@ SELECT
     purchases.created_at,
     products.name AS product_name,
     products.description AS product_description,
-    products.image_url AS product_image_url
+    products.imageUrl AS product_imageUrl
 FROM purchases
 INNER JOIN purchases_products ON purchases.id = purchases_products.purchase_id
 INNER JOIN products ON purchases_products.product_id = products.id
 INNER JOIN users ON users.id = purchases.buyer;
-
