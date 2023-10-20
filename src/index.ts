@@ -26,7 +26,7 @@ app.get("/users", async (req: Request, res: Response) => {
       result = await db('users').select().where('name', 'like', `%${query.toLowerCase()}%`);
     }
 
-    res.status(200).send(result);
+    res.status(201).send(result);
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).send(error.message);
@@ -108,7 +108,7 @@ app.post("/users", async (req: Request, res: Response) => {
       const newUser: Tusers = { id, name, email, password, createdAt: new Date().toISOString() };
       users.push(newUser);
 
-      return res.status(200).send("Cadastro realizado com sucesso!");
+      return res.status(201).send("Cadastro realizado com sucesso!");
     } else {
       throw new Error("Os dados devem ser do formato string.");
     }
@@ -181,7 +181,7 @@ app.post("/purchases", async (req: Request, res: Response) => {
         throw new Error("O usuário não existe.");
       }
 
-      // Verifica se o ID já existe
+      // Verifica se o purchase ID já existe
       const idExists = await db('purchases')
         .select('id')
         .where('id', purchase_id)
@@ -205,7 +205,7 @@ app.post("/purchases", async (req: Request, res: Response) => {
       })
 
       // Responde com sucesso
-      return res.status(201).send("Cadastro realizado com sucesso!");
+      return res.status(201).send("Pedido realizado com sucesso!");
     } else {
       throw new Error("Os dados devem ser do formato correto (string para 'buyer' e número para 'quantity').");
     }
@@ -347,7 +347,7 @@ app.put("/products/:id", async (req: Request, res: Response) => {
         .update(updateData);
     }
 
-    res.status(200).send({ message: "O item foi alterado com sucesso" });
+    res.status(200).send({ message: "Produto atualizado com sucesso" });
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).send({ message: error.message });
