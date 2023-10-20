@@ -2,7 +2,28 @@
 
 [Labecommerce API](https://documenter.getpostman.com/view/28315812/2s9YC8xBvZ)
 
-Esta é a **documentação** da API Labecommerce, que oferece endpoints para gerenciar _usuários_ , _produtos_ e _pedidos_.
+Esta é a **documentação** da API Labecommerce um projeto backend vinculado ao banco de dados real, que oferece endpoints para gerenciar _usuários_ , _produtos_ e _pedidos_.
+
+### Conteúdos abordados - NodeJS - Typescript - Express - SQL e SQLite - Knex - Postman
+
+### Modelagem de relação entre as tabelas.
+
+![image](https://github.com/labenuexercicios/projeto-labecommerce/assets/29845719/b446bbb0-bc9c-42d9-be04-b9ce1d605bd4)
+https://dbdiagram.io/d/63c6e8e5296d97641d7a4666
+
+<br>
+---------------
+
+## Caminhos das Requisições (Paths)
+Os caminhos devem ser definidos em letras minúsculas, sem acento e sem caracteres especiais.
+
+### Requisições de Usuários
+- /users
+### Requisições de Produtos
+- /products
+### Requisições de Compras
+- /purchases
+---------------
 
 ## Endpoints
 
