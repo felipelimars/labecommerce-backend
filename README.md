@@ -4,7 +4,14 @@
 
 Esta é a **documentação** da API Labecommerce um projeto backend vinculado ao banco de dados real, que oferece endpoints para gerenciar _usuários_ , _produtos_ e _pedidos_.
 
-### Conteúdos abordados - NodeJS - Typescript - Express - SQL e SQLite - Knex - Postman
+### Conteúdos abordados
+· NodeJS
+· Typescript
+· Express
+· Knex
+· SQL
+· SQLite
+· Postman
 
 ### Modelagem de relação entre as tabelas.
 
@@ -12,7 +19,6 @@ Esta é a **documentação** da API Labecommerce um projeto backend vinculado ao
 https://dbdiagram.io/d/63c6e8e5296d97641d7a4666
 
 <br>
----------------
 
 ## Endpoints
 
