@@ -112,3 +112,30 @@ https://dbdiagram.io/d/63c6e8e5296d97641d7a4666
 Para testar os endpoints da API, você pode usar o [**Postman**](https://documenter.getpostman.com/view/28315812/2s9YC8xBvZ). Basta importar a coleção no Postman para começar a fazer solicitações e testar os diferentes recursos da API.
 
 Certifique-se de incluir os dados corretos no corpo da solicitação (body) ao criar novos usuários ou produtos e ao editar produtos existentes.
+
+### Como instalar e executar o projeto
+
+## Pré-requisitos
+
+Antes de começar, certifique-se de atender aos seguintes requisitos:
+
+- Node.js e VScode instalados em sua máquina.
+
+## Instalação
+
+Siga os passos abaixo para instalar e executar o projeto:
+
+1. Copie o link do repositório do GitHub: https://github.com/felipelimars/labecommerce-backend.git
+
+2. Abra o projeto no Visual Studio Code (ou em seu editor de código preferido).
+
+3. No terminal do VS Code (ou qualquer terminal de sua preferência), navegue até o diretório do projeto:
+
+4. Instale as dependências do projeto utilizando o comando: npm install
+
+5. Inicie o servidor de desenvolvimento utilizando o comando: npm run dev
+
+Agora o servidor está em execução e conectado com a API.
+
+
+
