@@ -14,17 +14,6 @@ https://dbdiagram.io/d/63c6e8e5296d97641d7a4666
 <br>
 ---------------
 
-## Caminhos das Requisições (Paths)
-Os caminhos devem ser definidos em letras minúsculas, sem acento e sem caracteres especiais.
-
-### Requisições de Usuários
-- /users
-### Requisições de Produtos
-- /products
-### Requisições de Compras
-- /purchases
----------------
-
 ## Endpoints
 
 ### Get all users
