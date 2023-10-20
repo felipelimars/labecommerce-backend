@@ -2,7 +2,7 @@
 
 [Labecommerce API](https://documenter.getpostman.com/view/28315812/2s9YC8xBvZ)
 
-Esta é a **documentação** da API Labecommerce, que oferece endpoints para gerenciar _usuários_ e _produtos_.
+Esta é a **documentação** da API Labecommerce, que oferece endpoints para gerenciar _usuários_ , _produtos_ e _pedidos_.
 
 ## Endpoints
 
@@ -14,60 +14,84 @@ Esta é a **documentação** da API Labecommerce, que oferece endpoints para ger
 
 ### Get all products
 
-- **Descrição**: Retorna todos os _produtos cadastrados_. Você pode filtrar os resultados por palavras-chave no nome do produto usando _query params_.
+- **Descrição**: Retorna todos os _produtos cadastrados_.
 - **Método**: GET
 - **URL**: `/products`
-- **Exemplo de consulta com palavra-chave**: `/products?q=camiseta`
 
 ### Get product by name
 
 - **Descrição**: Retorna _produtos com base no nome fornecido_. Funciona da mesma forma que o endpoint "Get all products", mas com filtro por nome.
 - **Método**: GET
 - **URL**: `/products/:name`
-- **Exemplo de consulta por nome**: `/products/camiseta`
+- **Exemplo de consulta com palavra-chave**: `/products?q=gamer`
 
-### Create new user
+### Get purchase by ID
+
+- **Descrição**: Retorna _pedidos com base no ID fornecido_.
+- **Método**: GET
+- **URL**: `/purchases/:id`
+- **Exemplo de consulta com palavra-chave**: `/purchases/01`
+
+### Create user
 
 - **Descrição**: Cria um **novo usuário**.
 - **Método**: POST
 - **URL**: `/users`
-- **Corpo da solicitação**: JSON com os dados do usuário a ser criado.
+- **Corpo da solicitação**: body: raw formato JSON com os dados do usuário a ser criado.
 
-### Create new product
+### Create product
 
 - **Descrição**: Cria um **novo produto**.
 - **Método**: POST
 - **URL**: `/products`
-- **Corpo da solicitação**: JSON com os dados do produto a ser criado.
+- **Corpo da solicitação**: body: raw formato JSON com os dados do produto a ser criado.
+
+### Create purchase
+
+- **Descrição**: Cria um **novo pedido**.
+- **Método**: POST
+- **URL**: `/purchases`
+- **Corpo da solicitação**: body: raw formato JSON com os dados do pedido a ser criado.
 
 ### Delete user by id
 
 - **Descrição**: Deleta um _usuário com base no ID fornecido_.
 - **Método**: DELETE
 - **URL**: `/users/:id`
+- **Exemplo da URL como remover**: `/users/01`
 
 ### Delete product by id
 
 - **Descrição**: Deleta um _produto com base no ID fornecido_.
 - **Método**: DELETE
 - **URL**: `/products/:id`
+- **Exemplo da URL para remover**: `/products/01`
+  
+### Delete purchase by id
+
+- **Descrição**: Deleta um _pedido com base no ID fornecido_.
+- **Método**: DELETE
+- **URL**: `/purchases/:id`
+- **Exemplo da URL para remover**: `/purchases/01`
 
 ### Edit product by id
 
 - **Descrição**: Edita um _produto com base no ID fornecido_.
 - **Método**: PUT
 - **URL**: `/products/:id`
-- **Corpo da solicitação**: JSON com os dados do produto a ser editado.
+- **Exemplo da URL para editar**: `/products/01`
+- **Corpo da solicitação**: body: raw formato JSON com os dados do produto a ser editado.
 
 ### Edit user by id
 
 - **Descrição**: Edita um _usuário com base no ID fornecido_.
 - **Método**: PUT
 - **URL**: `/users/:id`
-- **Corpo da solicitação**: JSON com os dados do usuário a ser editado.
+- **Exemplo da URL para remover**: `/users/01`
+- **Corpo da solicitação**: body: raw formato JSON com os dados do usuário a ser editado.
 
 ## Postman
 
 Para testar os endpoints da API, você pode usar o [**Postman**](https://documenter.getpostman.com/view/28315812/2s9YC8xBvZ). Basta importar a coleção no Postman para começar a fazer solicitações e testar os diferentes recursos da API.
 
-Certifique-se de incluir os dados corretos no corpo da solicitação ao criar novos usuários ou produtos e ao editar produtos existentes.
+Certifique-se de incluir os dados corretos no corpo da solicitação (body) ao criar novos usuários ou produtos e ao editar produtos existentes.
