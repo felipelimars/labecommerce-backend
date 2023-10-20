@@ -26,7 +26,7 @@ app.get("/users", async (req: Request, res: Response) => {
       result = await db('users').select().where('name', 'like', `%${query.toLowerCase()}%`);
     }
 
-    res.status(201).send(result);
+    res.status(200).send(result);
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).send(error.message);
