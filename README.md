@@ -129,7 +129,7 @@ Siga os passos abaixo para instalar e executar o projeto:
 
 2. Abra o projeto no Visual Studio Code (ou em seu editor de código preferido).
 
-3. No terminal do VS Code (ou qualquer terminal de sua preferência), navegue até o diretório do projeto:
+3. No terminal do VS Code (ou qualquer terminal de sua preferência), navegue até o diretório do projeto e execute git clone + link-do-repositorio
 
 4. Instale as dependências do projeto utilizando o comando: npm install
 
