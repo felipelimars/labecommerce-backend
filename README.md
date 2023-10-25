@@ -121,19 +121,30 @@ Antes de começar, certifique-se de atender aos seguintes requisitos:
 
 - Node.js e VScode instalados em sua máquina.
 
-## Instalação
+# Como executar o projeto
 
-Siga os passos abaixo para instalar e executar o projeto:
+Pré-requisitos: npm 
 
-1. Copie o link do repositório do GitHub: https://github.com/felipelimars/labecommerce-backend.git
+```bash / terminal
+# clonar repositório
+git clone https://github.com/felipelimars/labecommerce-backend.git
 
-2. Abra o projeto no Visual Studio Code (ou em seu editor de código preferido).
+# Abra o projeto no Visual Studio Code (ou em seu editor de código preferido).
 
-3. No terminal do VS Code (ou qualquer terminal de sua preferência), navegue até o diretório do projeto e execute git clone + link-do-repositorio
+# instalar dependências
+npm install
 
-4. Instale as dependências do projeto utilizando o comando: npm install
+# executar o projeto
+npm run dev
+```
 
-5. Inicie o servidor de desenvolvimento utilizando o comando: npm run dev
+# Autor
+
+Felipe Lima
+
+https://www.linkedin.com/in/felipelimars
+
+6. Inicie o servidor de desenvolvimento utilizando o comando: npm run dev
 
 Agora o servidor está em execução e conectado com a API.
 
