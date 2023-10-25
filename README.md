@@ -138,9 +138,8 @@ Agora o servidor está em execução e conectado com a API.
 
 # Autor
 
-Felipe Lima
+[**Felipe Lima**](https://www.linkedin.com/in/felipelimars)
 
-https://www.linkedin.com/in/felipelimars
 
 
 
