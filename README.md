@@ -121,9 +121,6 @@ Antes de começar, certifique-se de atender aos seguintes requisitos:
 
 - Node.js e VScode instalados em sua máquina.
 
-# Como executar o projeto
-
-Pré-requisitos: npm 
 
 ```bash / terminal
 # clonar repositório
