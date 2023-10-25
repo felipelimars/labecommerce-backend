@@ -113,9 +113,9 @@ Para testar os endpoints da API, você pode usar o [**Postman**](https://documen
 
 Certifique-se de incluir os dados corretos no corpo da solicitação (body) ao criar novos usuários ou produtos e ao editar produtos existentes.
 
-### Como instalar e executar o projeto
+## Como instalar e executar o projeto
 
-## Pré-requisitos
+### Pré-requisitos
 
 Antes de começar, certifique-se de atender aos seguintes requisitos:
 
