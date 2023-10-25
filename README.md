@@ -6,13 +6,12 @@ Esta é a **documentação** da Labecommerce um projeto backend de uma API vincu
 
 ### Conteúdos abordados
 
-· NodeJS
-· Typescript
-· Express
-· Knex
-· SQL
-· SQLite
-· Postman
+<p align="left">
+<br>
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=nodejs,typescript,express,mysql,sqlite,postman," style="height: 25px;"/>
+  </a>
+</p>
 
 ### Modelagem de relação entre as tabelas.
 
