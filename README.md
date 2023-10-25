@@ -2,7 +2,7 @@
 
 [Labecommerce API](https://documenter.getpostman.com/view/28315812/2s9YC8xBvZ)
 
-Esta é a **documentação** da Labecommerce um projeto backend de uma API vinculada a um banco de dados real, que oferece endpoints para gerenciar _usuários_ , _produtos_ e _pedidos_.
+Esta é a **documentação** da Labecommerce um projeto backend de uma API vinculada a um banco de dados real, que oferece endpoints para gerenciar _usuários_, _produtos_ e _pedidos_.
 
 ### Conteúdos abordados
 
