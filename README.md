@@ -9,7 +9,7 @@ Esta é a **documentação** da Labecommerce um projeto backend de uma API vincu
 <p align="left">
 <br>
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=nodejs,typescript,express,mysql,sqlite,postman," style="height: 25px;"/>
+    <img src="https://skillicons.dev/icons?i=postman,nodejs,typescript,express,sqlite,mysql" style="height: 25px;"/>
   </a>
 </p>
 
