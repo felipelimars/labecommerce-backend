@@ -135,15 +135,14 @@ npm install
 npm run dev
 ```
 
+Agora o servidor está em execução e conectado com a API.
+
 # Autor
 
 Felipe Lima
 
 https://www.linkedin.com/in/felipelimars
 
-6. Inicie o servidor de desenvolvimento utilizando o comando: npm run dev
-
-Agora o servidor está em execução e conectado com a API.
 
 
 
