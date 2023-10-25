@@ -50,6 +50,7 @@ SELECT * FROM users;
 -- Get All Products --
 SELECT * FROM products;
 
+-- Get All Purchases --
 SELECT * FROM purchases;
 
 -- Get All Products + Filtro de busca por nome --
@@ -73,7 +74,7 @@ WHERE id = '04';
 DELETE FROM products
 WHERE id = '05';
 
--- Edit Products by id -- 
+--  Edição de dados na tabela products -- 
 UPDATE products
 SET 
     id = '01',
@@ -96,14 +97,14 @@ ON DELETE CASCADE -- efeito cascata ao atualizar id na tabela users
 
 SELECT * FROM purchases;
 
--- Criar pedidos --
+--- Inserção de dados na tabela purchases --
 INSERT INTO purchases (id, buyer, total_price)
 VALUES
 ('01', '01', 200),
 ('02', '02', 400),
 ('03', '03', 150);
 
-
+-- Edição de dados na tabela purchases --
 UPDATE purchases SET total_price = 80 WHERE id = '03';
 
 -- visualizacao tabela purchases e users
@@ -134,8 +135,7 @@ VALUES
   ('02', '03', 2),
   ('03', '03', 1);
 
-
--- Consulta com INNER JOIN para mostrar todas as colunas das tabelas relacionadas
+-- Consulta com INNER JOIN para mostrar todas as colunas das tabelas relacionadas --
 SELECT
     purchases.id AS purchase_id,
     purchases.buyer AS buyer_id,    
@@ -151,3 +151,4 @@ FROM purchases
 INNER JOIN purchases_products ON purchases.id = purchases_products.purchase_id
 INNER JOIN products ON purchases_products.product_id = products.id
 INNER JOIN users ON users.id = purchases.buyer;
+

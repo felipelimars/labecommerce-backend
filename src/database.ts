@@ -1,7 +1,5 @@
 import { TProduct, Tusers } from "./types";
 
-/* Feito os exercicios types.ts e o database.ts do projeto junto com suas tipagens */
-
 export const users: Tusers[] = [
   {
     id: "01",
